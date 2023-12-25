@@ -3,6 +3,11 @@ import sys
 import sqlite3
 from urllib.parse import urlparse
 
+should_be_silent = False
+if len(sys.argv) == 2:
+    should_be_silent = sys.argv[1] == "silent"
+
+
 #get the path to browser's data
 path = "C:\\Users\\{}\\AppData\\Local\\Yandex\\YandexBrowser\\User Data".format(os.getlogin())
 while not os.path.exists(path):
@@ -55,7 +60,7 @@ sorted_urls =  {k: v for k, v in sorted(urls.items(), key=lambda item: item[1], 
 
 counter = 0
 for url in sorted_urls:
-    if counter == 10:
+    if counter == 10 and not should_be_silent:
         input("press ENTER to continue...")
         counter = 0
 
