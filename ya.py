@@ -17,6 +17,7 @@ elif len(sys.argv) > 2:
     print("Usage example: python ya.py [silent|json]")
     sys.exit(-1)
 
+    
 
 #get the path to browser's data
 path = "C:\\Users\\{}\\AppData\\Local\\Yandex\\YandexBrowser\\User Data".format(os.getlogin())
@@ -67,14 +68,12 @@ for r in result:
         urls[url] += 1
 
 sorted_urls =  {k: v for k, v in sorted(urls.items(), key=lambda item: item[1], reverse=True)}
-
 counter = 0
 for url in sorted_urls:
-
     #dirty, but effective
     if should_save_as_json:break
     
-    if counter == 10 and not should_be_silent:
+    if counter == 10 and should_be_silent:
         input("press ENTER to continue...")
         counter = 0
 
