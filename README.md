@@ -4,3 +4,4 @@ It count url visiting frequence and percentage.<br>
 
 # Usage example
 ```python ya.py``` - simply run script and get data.
+```python ya.py silent``` - run script and output won't be blocked.(Suitable for pyping  output redirection).
