@@ -1,11 +1,21 @@
 import os
 import sys
 import sqlite3
+import json
 from urllib.parse import urlparse
 
-should_be_silent = False
+should_be_silent    = False
+should_save_as_json = False
+
+#if there is only 1 argument, then it's silent xor json
+
+is_arg = lambda arg,n: sys.argv[n] == arg
 if len(sys.argv) == 2:
-    should_be_silent = sys.argv[1] == "silent"
+    should_be_silent = is_arg("silent",1)
+    should_save_as_json = is_arg("json",1)
+elif len(sys.argv) > 2:
+    print("Usage example: python ya.py [silent|json]")
+    sys.exit(-1)
 
 
 #get the path to browser's data
@@ -60,6 +70,10 @@ sorted_urls =  {k: v for k, v in sorted(urls.items(), key=lambda item: item[1], 
 
 counter = 0
 for url in sorted_urls:
+
+    #dirty, but effective
+    if should_save_as_json:break
+    
     if counter == 10 and not should_be_silent:
         input("press ENTER to continue...")
         counter = 0
@@ -68,4 +82,7 @@ for url in sorted_urls:
     align_value = abs(20-len(url))
     print("{}{}  ::: visiting frequency = {} ::: percentage = {} %".format(url," "*align_value,count, count/len(urls.keys())))
     counter+=1
-    
+
+if should_save_as_json:
+    r = json.dumps(sorted_urls)
+    print(r)
